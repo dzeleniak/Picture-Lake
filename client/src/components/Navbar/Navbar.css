@@ -1,0 +1,10 @@
+.navbar-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+    background-color: rgb(5, 70, 66);
+}
+
+.navbar-title {
+
+}
