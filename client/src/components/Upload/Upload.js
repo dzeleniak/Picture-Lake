@@ -22,9 +22,6 @@ export default function Upload() {
     }
     
     const postImage = async (e) => {
-        console.log(process.env.REACT_APP_ACCESS_KEY_ID);
-        console.log(process.env.REACT_APP_SECRET_ACCESS_KEY);
-
         S3FileUpload.uploadFile(image, config)
             .then((data) => {
                 console.log(data.location);
