@@ -2,6 +2,7 @@ const {Sequelize, DataTypes} = require('sequelize');
 
 const db = require('../Helpers/db');
 
+// Model for Image table
 const Image = db.define('images', {
     name:{
         type: DataTypes.STRING(50),

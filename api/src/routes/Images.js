@@ -6,11 +6,6 @@ const Image = require('../Models/Image');
 
 // Create DB entry for image
 router.post('/', async (req, res) => {
-    // Post image location and information 
-    // const test = await Image.create({
-    //     url: "Test.com",
-    //     name: "TestImage",
-    // })
 
     const { url, name, description, username } = req.body;
     try {
@@ -34,10 +29,12 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Get all image DB entries
 router.get('/', async (req, res) => {
 
     console.log("Get hit");
     try {
+        // run select all query
         const images = await Image.findAll();
         console.log(JSON.stringify(images, null, 4));
         res.send({

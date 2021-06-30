@@ -1,35 +1,46 @@
 import React, {useState} from 'react'
 import Axios from 'axios';
 import S3FileUpload from 'react-s3';
+import axios from 'axios';
 require('dotenv').config();
 
 export default function Upload() {
     
-    const [image, setImage] = useState(null);
-    const [name, setName] = useState("");
-    // const [imgSrc, setImgSrc] = useState(null);
-
     const config = {
         bucketName: 'picture-lake-photo-upload',
         region: 'us-west-2',
         accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
-        secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY
+        secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
     }
 
-    const handleImageChange = (e) => {
-        console.log(e.target.files[0]);
+    const [image, setImage] = useState(null);
+    const [name, setName] = useState("");
+
+    const apiUrl = process.env.REACT_APP_API_URL;
+
+    const handleImageChange = (e) => {        
         setImage(e.target.files[0]);
     }
     
+    //TODO: Create ability for duplicate filenames
     const postImage = async (e) => {
-        S3FileUpload.uploadFile(image, config)
-            .then((data) => {
-                console.log(data.location);
-                // setImgSrc(data.location);
-            })
+        const { location } = await S3FileUpload.uploadFile(image, config)
+            .then((data) => data)
             .catch((err) => {
-                console.log(err);
+                return null;
             })
+
+        if(location != null) {
+            try {
+                await axios
+                    .post(apiUrl + 'images', {
+                        url: location,
+                        name: name,
+                    })
+            } catch (err) {
+                console.log(err);
+            }
+        }
     }
 
     return (
@@ -37,7 +48,6 @@ export default function Upload() {
             <input type="file" id="file" accept="image/png, image/jpeg"  onChange={handleImageChange} required/>
             <input type="text" placeholder="File Name" onChange={(e) => setName(e.target.value)} required/>
             <input type="submit" onClick={postImage}/>
-            {/* <img src={imgSrc ? imgSrc : null} alt="asdf" /> */}
         </div>
     )
 }
