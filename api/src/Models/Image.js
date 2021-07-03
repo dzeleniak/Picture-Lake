@@ -1,6 +1,6 @@
 const {Sequelize, DataTypes} = require('sequelize');
 
-const db = require('../Helpers/db');
+const db = require('../Database/db');
 
 // Model for Image table
 const Image = db.define('images', {
