@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const db = require('./Helpers/db');
+const db = require('./Database/db');
 const Images = require('./routes/Images');
 
 // Initialize api
