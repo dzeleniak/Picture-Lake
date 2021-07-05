@@ -17,10 +17,7 @@ exports.postImage = async ( req, res ) => {
             body: bodyImage.toJSON(),
         })
     } catch (err) {
-        res.send({
-            status: "Failure",
-            error: err
-        });
+        res.status(500).send({msg: err});
     }
 }
 
@@ -68,7 +65,7 @@ exports.putImage = async ( req, res ) => {
                 res.send({msg: `Could not update item: ${err}`});
             })
     } catch (err) {
-        res.status(400).send({msg: err});
+        res.status(500).send({msg: err});
     }
 }
 
@@ -86,7 +83,7 @@ exports.deleteImage = async ( req, res ) => {
             res.send({msg: `Could not delete item: ${err}`})
         })
     } catch (err) {
-        res.status(400).send({msg: err});
+        res.status(500).send({msg: err});
     }
 }
 

@@ -16,12 +16,11 @@ app.use('/images', Images);
 
 const port = process.env.PORT
 
+app.get('/', (req,res) => {
+    res.send({msg: "hello!"})
+})
+
 // Start server
 app.listen(port, async ()=>{
     console.log(`Listening on port: ${port}`);
-    try{
-        await db.authenticate();
-    } catch (err) {
-        console.log(err);
-    }
 })
