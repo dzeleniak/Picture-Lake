@@ -9,7 +9,6 @@ const {
     deleteImage,
 } = require('../Controllers/ImageController');
 
-
 // Create DB entry for image
 router.post('/', postImage);
 

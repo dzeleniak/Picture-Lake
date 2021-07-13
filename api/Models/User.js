@@ -10,10 +10,14 @@ const User = db.define('users', {
     email: {
         type: DataTypes.STRING(50),
         allowNull: false
-    }
+    },
+    password: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+    },
 });
 
-(()=>{
+(async ()=>{
     await db.sync();
 })();
 

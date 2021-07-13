@@ -22,6 +22,8 @@ const Image = db.define('images', {
     },
 });
 
-(async ()=>{await db.sync()})();
+(async () => {
+    await db.sync()
+})();
 
 module.exports = Image;

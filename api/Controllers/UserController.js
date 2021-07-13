@@ -1,23 +1,25 @@
 const User = require('../Models/User');
 
-exports.postUser = (req, res) => {
-    const { username, email } = req.body;
+exports.postUser = async (req, res) => {
+    const { username, email, password } = req.body;
 
     try {
         const bodyUser = await User.create({
             username,
             email,
+            password,
         });
 
         res.status(200).send({
             body: bodyUser.toJSON(),
         })
+
     } catch (err) {
         res.status(500).send({msg: err});
     }
 }
 
-exports.getUser = (req, res) => {
+exports.getUser = async (req, res) => {
     try {
         const users = await User.findAll();
         res.status(200).send({
@@ -28,7 +30,7 @@ exports.getUser = (req, res) => {
     }
 }
 
-exports.getUserById = (req, res) => {
+exports.getUserById = async (req, res) => {
     const {id} = req.params;
 
     try {
@@ -41,7 +43,7 @@ exports.getUserById = (req, res) => {
     }
 }
 
-exports.putUser = (req, res) => {
+exports.putUser = async (req, res) => {
     const {id} = req.params;
     const user = req.body;
 
@@ -60,7 +62,7 @@ exports.putUser = (req, res) => {
     }
 }
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
     const {id} = req.params;
 
     try {
