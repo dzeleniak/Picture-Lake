@@ -12,8 +12,7 @@ exports.postImage = async ( req, res ) => {
             username: username ? username : null,
         });
 
-        res.send({
-            status: "Success",
+        res.status(200).send({
             body: bodyImage.toJSON(),
         })
     } catch (err) {
@@ -26,10 +25,9 @@ exports.getImages = async ( req, res ) => {
     try {
         // run select all query
         const images = await Image.findAll();
-        res.status = 200;
-        res.send({
+        res.status(200).send({
             body: images,
-        })
+        });
     } catch (err) {
         res.status(500).send({msg: err})
     }
@@ -40,8 +38,7 @@ exports.getImage = async ( req, res ) => {
     const { id } = req.params;
     try {
         const image = await Image.findByPk(id);
-        res.status = 200;
-        res.send({
+        res.status(200).send({
             body: image
         })
     } catch (err) {
@@ -59,10 +56,10 @@ exports.putImage = async ( req, res ) => {
             where: {id}
         })
             .then(item => {
-                res.send({msg: `Successfully updated item: ${id}`})
+                res.status(200).send({msg: `Successfully updated item: ${id}`})
             })
             .catch(err => {
-                res.send({msg: `Could not update item: ${err}`});
+                res.status(400).send({msg: `Could not update item: ${err}`});
             })
     } catch (err) {
         res.status(500).send({msg: err});

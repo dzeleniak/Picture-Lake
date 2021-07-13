@@ -1,10 +1,16 @@
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import Card from './components/Card/Card';
+import Gallery from './components/Gallery/Gallery';
 import Upload from './components/Upload/Upload';
+import Login from './components/Login/Login';
 import axios from 'axios';
 import { useState, useEffect } from 'react'
-
+import {
+  BrowserRouter as Router,
+  Switch, 
+  Route, 
+  Link
+} from 'react-router-dom';
 function App() {
 
   const [images, setImages] = useState(null);
@@ -20,9 +26,28 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
-      <Upload />
-      {images && images.map(item => <Card key={item.id} name={item.name} url={item.url} description={item.description} user={item.username}/>)}
+      <Router>
+        
+          <Navbar />
+
+          <Switch>
+
+            <Route path="/login">
+              {/* Login Component */}
+              <Login />
+            </Route>
+
+            <Route path="/upload">
+              {/* Upload Form */}
+              <Upload/>
+            </Route>
+
+            <Route path="/">
+              {images && <Gallery images={images}/>}
+            </Route>
+
+          </Switch>
+      </Router>
     </div>
   );
 }
