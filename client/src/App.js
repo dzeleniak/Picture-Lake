@@ -9,45 +9,88 @@ import {
   BrowserRouter as Router,
   Switch, 
   Route, 
-  Link
+  Link,
+  useLocation
 } from 'react-router-dom';
+
 function App() {
 
   const [images, setImages] = useState(null);
-
+  const [user, setUser] = useState({});
+  const [userId, setUserId] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
+
+  const location = useLocation();
+
+  const loginHandler = async (username, password) => {
+
+    await axios.post(apiUrl + "auth/login", {
+      username: username, 
+      password: password
+    })
+      .then(res => {
+        setIsLoggedIn(true);
+        setUserId(res.data.id);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
   
+  // Fetch user profile
+  useEffect(() => {
+    axios.get(apiUrl + `users/${userId}`)
+      .then(res => {
+        setUser(res.data.body);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, [userId])
+
+  // Fetch images
   useEffect(()=>{
-    axios.get(apiUrl + "images")
-      .then(res =>{
-        setImages(res.data.body);
-      });
-  }, [])
+    if(location.pathname === '/') {
+      axios.get(apiUrl + "images")
+        .then(res =>{
+          const usersImages = res.data.body.filter(x => x.username === user.username);  
+          setImages(usersImages);
+        });
+    }
+  }, [location]);
 
   return (
-    <div className="App">
-      <Router>
-        
-          <Navbar />
+    <div className="App">        
+        <Navbar />
 
-          <Switch>
+        <Switch>
 
-            <Route path="/login">
-              {/* Login Component */}
-              <Login />
-            </Route>
+          <Route path="/login">
+            {/* Login Component */}
+            <Login login={loginHandler} loggedIn={isLoggedIn}/>
+          </Route>
 
-            <Route path="/upload">
-              {/* Upload Form */}
-              <Upload/>
-            </Route>
+          <Route path="/upload">
+            {/* Upload Form */}
+            {
+              isLoggedIn ? 
+                <Upload user={user}/>
+                :
+                <h1>Please Log In</h1>
+            }
+          </Route>
 
-            <Route path="/">
-              {images && <Gallery images={images}/>}
-            </Route>
+          <Route path="/">
+            {
+              isLoggedIn ? 
+              (images) && <Gallery images={images}/>
+              :
+              <h1>Please Log In</h1>
+            }
+          </Route>
 
-          </Switch>
-      </Router>
+        </Switch>
     </div>
   );
 }

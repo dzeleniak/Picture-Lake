@@ -4,7 +4,7 @@ import S3FileUpload from 'react-s3';
 import axios from 'axios';
 require('dotenv').config();
 
-export default function Upload() {
+export default function Upload(props) {
     
     const config = {
         bucketName: 'picture-lake-photo-upload',
@@ -15,6 +15,8 @@ export default function Upload() {
 
     const [image, setImage] = useState(null);
     const [name, setName] = useState("");
+
+    const {user} = props
 
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -36,6 +38,7 @@ export default function Upload() {
                     .post(apiUrl + 'images', {
                         url: location,
                         name: name,
+                        username: user.username,
                     })
             } catch (err) {
                 console.log(err);

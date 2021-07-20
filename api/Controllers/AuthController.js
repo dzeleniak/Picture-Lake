@@ -12,9 +12,10 @@ exports.signIn = async (req,res) => {
         })
         
         if(user) {
+            const retUser = user.toJSON();
             req.session.loggedin = true;
             req.session.username = username;
-            res.status(200).send({msg: 'Logged in.'});
+            res.status(200).send({msg: 'Logged in.', id: retUser.id});
         } else {
             res.status(500).send({msg: 'Incorrect username or password.'});
         }

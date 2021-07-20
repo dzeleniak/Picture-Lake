@@ -5,7 +5,7 @@ export default function Gallery({images}) {
     return (
         <div className="gallery-container">
             {images.map(item => {
-                return <Card name={item.name} url={item.url} description={item.description} user={item.username}/>
+                return <Card key={item.url} name={item.name} url={item.url} description={item.description} user={item.username}/>
             })}
         </div>
     )
