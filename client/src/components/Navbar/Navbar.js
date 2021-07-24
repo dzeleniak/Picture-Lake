@@ -17,7 +17,7 @@ export default function Header() {
                 <Link to="/upload">
                     <AddBoxIcon style={{fontSize: '40px'}} className="icon"/>
                 </Link>
-                <Link to="/login">
+                <Link to="/auth">
                     <AccountBoxIcon style={{fontSize: '40px'}} className="icon"/>
                 </Link>
             </div>

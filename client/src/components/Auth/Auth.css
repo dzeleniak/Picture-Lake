@@ -1,16 +1,16 @@
-.login-container {
+.auth-container {
     display: flex;
     justify-content: center;
 }
 
-.login-form {
+.auth-form {
     display: flex;
     flex-direction: column;
     margin: 50px 0;
     width: 360px;    
 }
 
-.login-form input {
+.auth-form input {
     outline: 0;
     background-color: rgb(215, 215, 215);
     border: none;
@@ -23,7 +23,7 @@
     -o-border-radius: 8px;
 }
 
-button {
+.submit-button {
     border: 0px;
     border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -41,7 +41,7 @@ button {
     -o-transition: background-color .5s;
 }
 
-button:hover {
+.submit-button:hover {
     cursor: pointer;
     background-color: rgba(125, 125, 125, 1);
 }

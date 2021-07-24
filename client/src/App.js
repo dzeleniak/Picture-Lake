@@ -2,7 +2,7 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import Gallery from './components/Gallery/Gallery';
 import Upload from './components/Upload/Upload';
-import Login from './components/Login/Login';
+import Login from './components/Auth/Auth';
 import axios from 'axios';
 import { useState, useEffect } from 'react'
 import {
@@ -32,10 +32,13 @@ function App() {
       .then(res => {
         setIsLoggedIn(true);
         setUserId(res.data.id);
+        return true;
       })
       .catch(err => {
         console.log(err);
+        return false;
       })
+
   }
   
   // Fetch user profile
@@ -51,6 +54,7 @@ function App() {
 
   // Fetch images
   useEffect(()=>{
+    // Select only the pictures that belong to the user
     if(location.pathname === '/') {
       axios.get(apiUrl + "images")
         .then(res =>{
@@ -66,13 +70,19 @@ function App() {
 
         <Switch>
 
-          <Route path="/login">
+          <Route path="/auth">
             {/* Login Component */}
-            <Login login={loginHandler} loggedIn={isLoggedIn}/>
+            {isLoggedIn 
+              ?
+              <h1>Profile Page</h1>
+              :
+              <Login login={loginHandler} loggedIn={isLoggedIn}/>
+            }
           </Route>
 
           <Route path="/upload">
             {/* Upload Form */}
+            {/* allow uploads only if logged in */}
             {
               isLoggedIn ? 
                 <Upload user={user}/>
@@ -82,6 +92,8 @@ function App() {
           </Route>
 
           <Route path="/">
+            {/* Home page */}
+            {/* Go to gallery only if logged in */}
             {
               isLoggedIn ? 
               (images) && <Gallery images={images}/>
